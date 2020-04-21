@@ -34,9 +34,9 @@
     "url": "https://github.com/stephen121212/TaskManager/issues"
   },
   "homepage": "https://github.com/stephen121212/TaskManager#readme",
-  "devDependencies": { 
-    "env-cmd": "^8.0.2",
-    "nodemon": "^1.18.9"
+  "devDependencies": {
+    "env-cmd": "^10.1.0",
+    "nodemon": "^2.0.3"
   },
   "description": ""
 }
