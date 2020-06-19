@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    	<h1>Doctor: {{data.username}}</h1>
+    	<h2>Phone Number: {{data.phoneNumber}}</h2>
+    	<h2>Email: {{data.email}}</h2>
+
+        
+        <form method ="POST" action='/Doctor/Logout'>
+            <button type="sumbit"/>Logout
+        </form>
+
+        <a href="/Edit">Edit your profile</a>
+
+        <form method ="POST" action='/Doctor/Delete?_method=DELETE'>
+            <button type="sumbit"/>Delete your profile
+        </form>
+
+        <a href ="/CreateAppointment">Create an Appointment</a>
+</html>

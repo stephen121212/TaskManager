@@ -1,26 +1,23 @@
 const express = require('express')
-const Task = require('../models/task')
+const Appointment = require('../models/appointment')
 const auth = require('../middleware/auth')
 const router = new express.Router()
 
-router.post('/Task', auth, async (req, res) => {
-    const task = new Task({
+router.post('/Appointment', auth, async (req, res) => {
+    const appointment = new Appointment({
         ...req.body,
-        owner: req.user._id
+        owner: req.doctor._id
     })
 
     try {
-        await task.save()
-        res.status(201).send(task)
+        await appointment.save()
+        res.status(201).send(appointment)
     } catch (e) {
         res.status(400).send(e)
     }
 })
 
-// Get /Task?completed=true
-// Get /Task?limit=10&skip=20
-// Get /Task?sortBy=createdAt:desc
-router.get('/Task', auth, async (req, res) => {
+router.get('/Appointment', auth, async (req, res) => {
     const match = {}
     const sort = {}
     
@@ -34,8 +31,8 @@ router.get('/Task', auth, async (req, res) => {
     }
 
     try {
-        await req.user.populate({
-            path: 'tasks',
+        await req.doctor.populate({
+            path: 'appointments',
             match,
             options: {
                 limit: parseInt(req.query.limit),
@@ -44,29 +41,29 @@ router.get('/Task', auth, async (req, res) => {
             }
         }).execPopulate()
         
-        res.send(req.user.tasks)
+        res.send(req.doctor.tasks)
     } catch (e) {
         res.status(500).send()
     }
 })
 
-router.get('/Task/:id', auth, async (req, res) => {
+router.get('/Appointment/:id', auth, async (req, res) => {
     const _id = req.params.id
 
     try {
-        const task = await Task.findOne({ _id, owner: req.user._id })
+        const appointment = await Appointment.findOne({ _id, owner: req.doctor._id })
 
-        if (!task) {
+        if (!appointment) {
             return res.status(404).send()
         }
 
-        res.send(task)
+        res.send(appointment)
     } catch (e) {
         res.status(500).send()
     }
 })
 
-router.patch('/Task/:id', auth, async (req, res) => {
+router.patch('/Appointment/:id', auth, async (req, res) => {
     const updates = Object.keys(req.body)
     const allowedUpdates = ['description', 'completed']
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
@@ -76,29 +73,29 @@ router.patch('/Task/:id', auth, async (req, res) => {
     }
 
     try {
-        const task = await Task.findOne({ _id: req.params.id, owner: req.user._id})
+        const appointment = await Appointment.findOne({ _id: req.params.id, owner: req.doctor._id})
 
-        if (!task) {
+        if (!appointment) {
             return res.status(404).send()
         }
 
-        updates.forEach((update) => task[update] = req.body[update])
-        await task.save()
-        res.send(task)
+        updates.forEach((update) => appointment[update] = req.body[update])
+        await appointment.save()
+        res.send(appointment)
     } catch (e) {
         res.status(400).send(e)
     }
 })
 
-router.delete('/Task/:id', auth, async (req, res) => {
+router.delete('/Appointment/:id', auth, async (req, res) => {
     try {
-        const task = await Task.findOneAndDelete({ _id: req.params.id, owner: req.user._id })
+        const appointment = await Appointment.findOneAndDelete({ _id: req.params.id, owner: req.doctor._id })
 
-        if (!task) {
+        if (!appointment) {
             res.status(404).send()
         }
 
-        res.send(task)
+        res.send(appointment)
     } catch (e) {
         res.status(500).send()
     }

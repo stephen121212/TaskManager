@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link href="css/Login.css" rel="stylesheet" type="text/css"/>
+	</head>
+
+	<body>
+        <div class="container">
+        <form method ="POST" action='/Doctor/Login'>
+            <div class="row">
+            <h2 style="text-align:center">Login Manually</h2>
+
+            <input type="text" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="submit" value="Login">
+            
+            </div>
+        </form>
+        </div>
+
+        <div class="bottom-container">
+        <div class="row">
+            <a href="/Registration" style="color:white" class="btn">Sign up</a>
+        </div>
+        </div>
+    </body>
+</html>
